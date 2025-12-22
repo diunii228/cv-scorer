@@ -27,9 +27,18 @@ Hệ thống đánh giá và chấm điểm CV tự động sử dụng:
    ```bash
    pip install -r requirements.txt
 
+3. **Cài đặt Poppler:**
+   - Mac: brew install poppler
+   - Linux: sudo apt-get install poppler-utils
+   - Windows: Tải và thêm bin vào PATH.
+  
+## Chạy ứng dụng
+   ```bash
+   streamlit run app.py
+
 ## Cấu trúc dự án
-app.py: Main application.
-services/: Logic xử lý (Parser, Scorer, History).
-models/: Quản lý AI Models (OCR, LLM, Embedding).
-ui/: Thành phần giao diện.
-core/: Cấu hình hệ thống.
+- app.py: Main application.
+- services/: Logic xử lý (Parser, Scorer, History).
+- models/: Quản lý AI Models (OCR, LLM, Embedding).
+- ui/: Thành phần giao diện.
+- core/: Cấu hình hệ thống.
