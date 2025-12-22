@@ -15,7 +15,15 @@ Hệ thống đánh giá và chấm điểm CV tự động sử dụng:
    - Ngoại ngữ (10%)
 3. **AI Feedback:** Nhận xét điểm mạnh/yếu và đề xuất phỏng vấn.
 4. **Lịch sử:** Lưu trữ kết quả đánh giá.
+   
+## Cấu trúc dự án
 
+   - app.py: Main application.
+   - services/: Logic xử lý (Parser, Scorer, History).
+   - models/: Quản lý AI Models (OCR, LLM, Embedding).
+   - ui/: Thành phần giao diện.
+   - core/: Cấu hình hệ thống.
+   - 
 ## Cài đặt
 
 1. **Yêu cầu hệ thống:**
@@ -36,9 +44,4 @@ Hệ thống đánh giá và chấm điểm CV tự động sử dụng:
    ```bash
    streamlit run app.py
 
-## Cấu trúc dự án
-- app.py: Main application.
-- services/: Logic xử lý (Parser, Scorer, History).
-- models/: Quản lý AI Models (OCR, LLM, Embedding).
-- ui/: Thành phần giao diện.
-- core/: Cấu hình hệ thống.
+
