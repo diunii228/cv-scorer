@@ -23,7 +23,7 @@ Hệ thống đánh giá và chấm điểm CV tự động sử dụng:
    - models/: Quản lý AI Models (OCR, LLM, Embedding).
    - ui/: Thành phần giao diện.
    - core/: Cấu hình hệ thống.
-   - 
+     
 ## Cài đặt
 
 1. **Yêu cầu hệ thống:**
