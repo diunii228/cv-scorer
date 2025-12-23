@@ -26,12 +26,26 @@ class CVParserService:
     def _ocr_image_data(self, image_data):
         try:
             result = self.ocr.ocr(image_data, cls=True)
-            if not result or not result[0]: return ""
-            lines = [line[1][0] for line in result[0] if line[1][1] > 0.5]
-            return "\n".join(lines)
         except Exception as e:
-            print(f"OCR Error: {e}")
+            logger.error(f"OCR engine failed: {e}")
             return ""
+
+        # IMPORTANT: result may be [] or [[]]
+        if not result or not result[0]:
+            logger.warning("OCR returned empty result")
+            return ""
+
+        lines = []
+        for line in result[0]:
+            try:
+                text = line[1][0]
+                score = line[1][1]
+                if score > 0.5:
+                    lines.append(text)
+            except Exception:
+                continue
+
+        return "\n".join(lines)
 
     def parse_cv_document(self, file_path):
         """
@@ -48,9 +62,15 @@ class CVParserService:
         # 2. Xử lý từng trang một
         for i, img in enumerate(images):
             print(f"Processing page {i+1}/{len(images)}...")
-            page_text = self._process_single_page_numpy(img)
-            full_text += page_text + "\n"
-            
+            try: 
+                page_text = self._process_single_page_numpy(img)
+            except Exception as e:
+                logger.error(f"Page {i+1} OCR failed: {e}")
+                continue
+            if page_text:
+                full_text+=page_text + "\n"
+        if not full_text.strip():    
+            return "", "Không trích xuất được nội dung CV (OCR không nhận diện được)."
         clean_raw = clean_ocr_errors_smart(clean_text(full_text))
         return clean_raw, None
     def _process_single_page_numpy(self, image_numpy):
