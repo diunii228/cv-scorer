@@ -1,5 +1,4 @@
 from paddleocr import PaddleOCR
-import inspect
 
 class OCRModel:
     _instance = None
@@ -7,17 +6,8 @@ class OCRModel:
     @classmethod
     def get_instance(cls):
         if cls._instance is None:
-            # Lấy danh sách tham số PaddleOCR hỗ trợ
-            sig = inspect.signature(PaddleOCR)
-            kwargs = {
-                "lang": "en",
-                "use_textline_orientation": True
-            }
-
-            # Chỉ thêm show_log nếu version hỗ trợ
-            if "show_log" in sig.parameters:
-                kwargs["show_log"] = False
-
-            cls._instance = PaddleOCR(**kwargs)
-
+            cls._instance = PaddleOCR(
+                lang="en",
+                use_angle_cls=True
+            )
         return cls._instance

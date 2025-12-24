@@ -23,29 +23,29 @@ class CVParserService:
     # 1. OCR ENGINE
     # =========================================================================
 
-    def _ocr_image_data(self, image_data):
+def _ocr_image_data(self, image_data):
+    try:
+        result = self.ocr.ocr(image_data)
+    except Exception as e:
+        logger.error(f"OCR engine failed: {e}")
+        return ""
+
+    if not result or not result[0]:
+        logger.warning("OCR returned empty result")
+        return ""
+
+    lines = []
+    for line in result[0]:
         try:
-            result = self.ocr.ocr(image_data, cls=True)
-        except Exception as e:
-            logger.error(f"OCR engine failed: {e}")
-            return ""
+            text = line[1][0]
+            score = line[1][1]
+            if score > 0.5:
+                lines.append(text)
+        except Exception:
+            continue
 
-        # IMPORTANT: result may be [] or [[]]
-        if not result or not result[0]:
-            logger.warning("OCR returned empty result")
-            return ""
+    return "\n".join(lines)
 
-        lines = []
-        for line in result[0]:
-            try:
-                text = line[1][0]
-                score = line[1][1]
-                if score > 0.5:
-                    lines.append(text)
-            except Exception:
-                continue
-
-        return "\n".join(lines)
 
     def parse_cv_document(self, file_path):
         """
